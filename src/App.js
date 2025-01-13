@@ -1,17 +1,12 @@
-import "./App.css";
-
 import React, { useState, useEffect } from "react";
-
-/*
-Light-weight application to demonstrate the power of React.js
-*/
+import "./App.css";
 
 const App = () => {
   const [score, setScore] = useState(0);
   const [question, setQuestion] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
   const [timeLeft, setTimeLeft] = useState(60);
-  const [PointVisible, setPointVisible] = useState(0);
+  const [pointVisible, setPointVisible] = useState(false);
   const [gameOver, setGameOver] = useState("");
   const [difficulty, setDifficulty] = useState(0);
 
@@ -23,7 +18,9 @@ const App = () => {
           return prevTime - 1;
         } else {
           clearInterval(timer);
-          setGameOver("Game over! Congratulations, you performed extremely well!")
+          setGameOver(
+            "Game over! Congratulations, you performed extremely well!"
+          );
           return 0;
         }
       });
@@ -79,8 +76,6 @@ const App = () => {
 
   const handlePoint = () => {
     setPointVisible(true);
-
-    // Hide the point after 2 seconds
     setTimeout(() => {
       setPointVisible(false);
     }, 700);
@@ -89,9 +84,9 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(gameOver){
+    if (gameOver) {
       setUserAnswer("No more attempts left.");
-      return 0;
+      return;
     }
 
     const parsedUserAnswer = parseInt(userAnswer);
@@ -101,56 +96,80 @@ const App = () => {
     if (parsedUserAnswer === correctAnswer) {
       setScore((score) => score + 1);
       handlePoint();
-      console.log(difficulty);
       generateQuestion();
-    } else{
-      setUserAnswer("Incorrect. Try again!")
+    } else {
+      setUserAnswer("Incorrect. Try again!");
     }
   };
-  
-  const setEasy = () => {
-    setDifficulty(0);
-  }
-  const setMed = () => {
-    setDifficulty(1);
-  }
-  const setHard = () => {
-    setDifficulty(2);
-  }
 
   return (
-    <div className="app-container">
-      <h1>Speed Arithmetic Tester</h1>
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-300 text-white flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-extrabold mb-6">Speed Arithmetic Trainer</h1>
 
-      <div className="score-time-container">
-        <p>Time Left: {timeLeft} seconds</p>
-        <p>Score: {score}</p>
+      <div className="flex gap-6 mb-6">
+        <div className="bg-white text-blue-500 py-2 px-4 rounded-lg shadow-md font-bold">
+          Time Left: {timeLeft}s
+        </div>
+        <div className="bg-white text-blue-500 py-2 px-4 rounded-lg shadow-md font-bold">
+          Score: {score}
+        </div>
       </div>
 
-      <div class="difficulty-buttons">
-        <button id="easyButton" onClick = {setEasy}>Easy</button>
-        <button id="mediumButton" onClick = {setMed}>Medium</button>
-        <button id="hardButton" onClick = {setHard}>Hard</button>
+      <div className="mb-6 flex gap-4">
+        <button
+          onClick={() => setDifficulty(0)}
+          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold shadow-md"
+        >
+          Easy
+        </button>
+        <button
+          onClick={() => setDifficulty(1)}
+          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold shadow-md"
+        >
+          Medium
+        </button>
+        <button
+          onClick={() => setDifficulty(2)}
+          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-semibold shadow-md"
+        >
+          Hard
+        </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <p className="question">{question} =</p>
+      <form onSubmit={handleSubmit} className="flex items-center justify-center gap-4 mb-6">
+        <p className="text-2xl font-bold bg-white text-blue-500 py-2 px-4 rounded-lg shadow-md">
+          {question}
+        </p>
+        <span className="text-4xl">=</span>
         <input
           type="text"
           value={userAnswer}
-          onChange={e => setUserAnswer(e.target.value)}
+          onChange={(e) => setUserAnswer(e.target.value)}
+          className="w-32 text-center text-blue-500 bg-white py-3 px-4 rounded-lg shadow-md font-semibold text-lg"
+          placeholder="Your Answer"
         />
-        <button type="submit">Submit</button>
       </form>
 
-      {PointVisible? <div className="point">+1 point!</div>: null}
+      <button
+        type="submit"
+        className="bg-blue-400 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold shadow-md"
+      >
+        Submit
+      </button>
 
-      <div className="gameOver">
-        <p>{gameOver}</p>
-      </div>
+      {pointVisible && (
+        <div className="mt-6 text-xl font-bold bg-green-500 px-4 py-2 rounded-lg shadow-md">
+          +1 Point!
+        </div>
+      )}
+
+      {gameOver && (
+        <div className="mt-6 text-center text-xl font-semibold bg-red-500 px-6 py-4 rounded-lg shadow-md">
+          {gameOver}
+        </div>
+      )}
     </div>
   );
 };
 
 export default App;
-
