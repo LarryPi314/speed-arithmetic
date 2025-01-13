@@ -4,3 +4,7 @@ Lightweight web application to train mental arithmetic. Uses only React.js and v
 There are 3 different difficulties reflecting the level of the problems: easy, medium, and hard which the user can toggle in game. 
 
 To run, download the source code and run `npm start` in the command line (making sure you have NPM Version >8 installed). 
+
+<div align="center">
+  <img src="./public/speed-arithmetic.png" alt="Vibe n Dine Homepage" width="100%" style="margin: 5px;">
+</div>
