@@ -1,5 +1,5 @@
 # speed-arithmetic
-Lightweight web application to train mental arithmetic. Uses only React.js and vanilla HTML/CSS.
+Lightweight web application to train mental arithmetic. Uses React.js and TailwindCSS
 
 There are 3 different difficulties reflecting the level of the problems: easy, medium, and hard which the user can toggle in game. 
 
